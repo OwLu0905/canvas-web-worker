@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "wasm": "",
+    "wasm": "wasm-pack build ./my-crate --target web",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
