@@ -6,7 +6,18 @@ use std::f64;
 static mut TIME: f64 = 0.0; // Static variable to store time
 
 #[wasm_bindgen]
-pub fn generate_heatmap(width: u32, height: u32) -> Vec<u8> {
+extern "C" {
+    #[wasm_bindgen(js_namespace = console)]
+    fn log(s: &str);
+}
+
+#[wasm_bindgen]
+pub fn log_message(message: &str) {
+    log(message);
+}
+
+#[wasm_bindgen]
+pub fn generate_heatmap(width: u32, height: u32, time: Option<f64>) -> Vec<u8> {
     // Create a vector to store heatmap data (e.g., grayscale values)
     let mut heatmap_data = vec![0u8; (width * height) as usize];
 
@@ -15,8 +26,9 @@ pub fn generate_heatmap(width: u32, height: u32) -> Vec<u8> {
     //     *pixel = rand::random();
     // }
     //
+
     unsafe {
-        TIME += 1.0; // Adjust the rate of change as needed
+        TIME += time.unwrap_or(0.05); // Adjust the rate of change as needed
     }
 
     for y in 0..height {
