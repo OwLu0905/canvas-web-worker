@@ -30,7 +30,7 @@
       mouse.x = event.x;
       mouse.y = event.y;
 
-      for (let j = 0; j < 10; j++) {
+      for (let j = 0; j < 3; j++) {
         particlesArray.push(
           new Particle(
             mouse,
@@ -49,7 +49,7 @@
       mouse.y = event.y;
       // drawCircle(ctx, mouse.x, mouse.y);
 
-      for (let j = 0; j < 5; j++) {
+      for (let j = 0; j < 3; j++) {
         particlesArray.push(
           new Particle(
             mouse,
@@ -88,9 +88,9 @@
     mouse: Record<"x" | "y", number | undefined>
   ) {
     if (ctx) {
-      // ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = "rgba(0,0,0,0.02)";
-      ctx.fillRect(0, 0, width, height);
+      ctx.clearRect(0, 0, width, height);
+      // ctx.fillStyle = "rgba(0,0,0,0.02)";
+      // ctx.fillRect(0, 0, width, height);
       handleParticles(ctx);
       hue += 0.5;
       if (hue > 360) {
@@ -103,9 +103,25 @@
   }
 
   function handleParticles(ctx: CanvasRenderingContext2D | null) {
+    if (!ctx) return;
     for (let i = 0; i < particlesArray.length; i++) {
       particlesArray[i].update();
       particlesArray[i].draw(ctx, hue);
+      for (let j = i; j < particlesArray.length; j++) {
+        if (particlesArray[i].x && particlesArray[i].y) {
+          const dx = particlesArray[i].x! - particlesArray[j].x!;
+          const dy = particlesArray[i].y! - particlesArray[j].y!;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < 100) {
+            ctx.beginPath();
+            ctx.strokeStyle = particlesArray[i].color;
+            ctx.lineWidth = particlesArray[i].size * 0.2;
+            ctx.moveTo(particlesArray[i].x!, particlesArray[i].y!);
+            ctx.lineTo(particlesArray[j].x!, particlesArray[j].y!);
+            ctx.stroke();
+          }
+        }
+      }
       if (particlesArray[i].size <= 0.3) {
         particlesArray.splice(i, 1);
         // NOTE: due to mutate array length -> we need to adjust the index
