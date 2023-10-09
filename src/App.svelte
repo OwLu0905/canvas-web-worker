@@ -1,7 +1,6 @@
 <script lang="ts">
   import Counter from "./lib/Counter.svelte";
   import Heat from "./lib/Heat.svelte";
-  import Partical from "./lib/Partical.svelte";
   import Demo from "./lib/learn/Demo.svelte";
   import DemoTmp from "./lib/learn/DemoTmp.svelte";
 </script>
@@ -13,11 +12,8 @@
   <!-- <div class="card pink"> -->
   <!--   <Heat /> -->
   <!-- </div> -->
-  <!-- <div class="card green"> -->
-  <!--   <Partical /> -->
-  <!-- </div> -->
-  <!-- <Demo /> -->
-  <DemoTmp />
+  <Demo />
+  <!-- <DemoTmp /> -->
 </main>
 
 <style>
